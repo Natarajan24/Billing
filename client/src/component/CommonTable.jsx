@@ -7,26 +7,25 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Button,
 } from "@mui/material";
 
-const ProductTable = ({ products, userData }) => {
-  console.log("products", products);
-  console.log("userData", userData);
-
+const CommonTable = ({ products, userData, handleProductAction }) => {
   return (
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
           {products !== null ? (
-            <TableRow style={{ backgroundColor: '#4dabf5'}}>
+            <TableRow style={{ backgroundColor: "#4dabf5" }}>
               <TableCell>S No</TableCell>
               <TableCell>Product Name</TableCell>
               <TableCell>Price</TableCell>
               <TableCell>Quantity</TableCell>
               <TableCell>Total Value</TableCell>
+              <TableCell>Action</TableCell>
             </TableRow>
           ) : (
-            <TableRow style={{ backgroundColor: '#4dabf5'}}>
+            <TableRow style={{ backgroundColor: "#4dabf5" }}>
               <TableCell>S No</TableCell>
               <TableCell>First Name</TableCell>
               <TableCell>Last Name</TableCell>
@@ -44,6 +43,18 @@ const ProductTable = ({ products, userData }) => {
                   <TableCell>{product.unitPrice}</TableCell>
                   <TableCell>{product.quantity}</TableCell>
                   <TableCell>{product.unitPrice * product.quantity}</TableCell>
+
+                  {handleProductAction && (
+                    <TableCell>
+                      <Button
+                        color="primary"
+                        style={{ backgroundColor: "#ff3d00", color: "white" }}
+                        onClick={() => handleProductAction(product)}
+                      >
+                        Delete
+                      </Button>
+                    </TableCell>
+                  )}
                 </TableRow>
               ))
             : userData?.map((user, index) => (
@@ -53,6 +64,14 @@ const ProductTable = ({ products, userData }) => {
                   <TableCell>{user.lastName}</TableCell>
                   <TableCell>{user.email}</TableCell>
                   <TableCell>{user.contactNumber}</TableCell>
+                  {handleProductAction && (
+                    <TableCell>
+                      {/* Add your action button here */}
+                      <Button onClick={() => handleProductAction(user)}>
+                        Action
+                      </Button>
+                    </TableCell>
+                  )}
                 </TableRow>
               ))}
         </TableBody>
@@ -61,4 +80,4 @@ const ProductTable = ({ products, userData }) => {
   );
 };
 
-export default ProductTable;
+export default CommonTable;

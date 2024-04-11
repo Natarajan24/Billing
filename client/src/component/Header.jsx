@@ -38,9 +38,9 @@ function Header() {
   };
 
   const handleMenuItemClick = (page) => {
-    if(page === "Billing"){
+    if (page === "Billing") {
       navigate("/");
-    }else{
+    } else {
       navigate(`/${page.toLowerCase()}`);
     }
 
@@ -105,7 +105,6 @@ function Header() {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
@@ -122,7 +121,7 @@ function Header() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            ABC ENTERPRISE
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (

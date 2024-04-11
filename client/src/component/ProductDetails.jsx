@@ -57,19 +57,35 @@ const ProductDetails = () => {
     setView(true);
   };
 
+  const handleCancel = () => {
+    setView(false);
+  };
+
   return (
     <div style={{ backgroundColor: "#f0f0f0", padding: "20px" }}>
       <Box textAlign="right">
         <div>
           <br />
-          <Button
+          {view ? (
+            <Button
             type="submit"
             variant="contained"
             color="primary"
-            onClick={hideGrid}
+            style={{ backgroundColor: "#ff6333", color: "white" }}
+            onClick={handleCancel}
           >
-            Add Product
+            Cancel
           </Button>
+          ) : (
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              onClick={hideGrid}
+            >
+              Add Product
+            </Button>
+          )}
         </div>
       </Box>
       <Box>
@@ -135,11 +151,7 @@ const ProductDetails = () => {
                       required
                       sx={{ marginBottom: 2 }}
                     />
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      color="primary"
-                    >
+                    <Button type="submit" variant="contained" color="primary">
                       Save
                     </Button>
                   </form>

@@ -64,7 +64,9 @@ const BillingInfo = () => {
                   <TableCell>Product</TableCell>
                   <TableCell>Quantity</TableCell>
                   <TableCell>Price</TableCell>
+                  <TableCell>Tax Percentage</TableCell>
                   <TableCell>Tax Rate</TableCell>
+                  <TableCell>Product Rate</TableCell>
                   <TableCell>Total</TableCell>
                 </TableRow>
                 {filteredData[0]?.productDetails?.map((product, index) => (
@@ -72,8 +74,10 @@ const BillingInfo = () => {
                     <TableCell>{product.productName}</TableCell>
                     <TableCell>{product.quantity}</TableCell>
                     <TableCell>${product.unitPrice}</TableCell>
+                    <TableCell>{product.tax}%</TableCell>
                     <TableCell>{(product.quantity * product.unitPrice * product.tax * taxRate).toFixed(2)}</TableCell>
                     <TableCell>${product.quantity * product.unitPrice}</TableCell>
+                    <TableCell>${product.quantity * product.unitPrice + product.quantity * product.unitPrice * product.tax * taxRate}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -81,13 +85,13 @@ const BillingInfo = () => {
           </TableContainer>
           <Box mt={2}>
             <Typography variant="body1">
-              Subtotal: ${subtotal.toFixed(2)}
+              Subtotal: ${subtotal?.toFixed(2)}
             </Typography>
             <Typography variant="body1">
               Tax :{calculateTotalTax}
             </Typography>
             <Typography variant="h6">
-              Total Amount: ${totalAmount.toFixed(2)}
+              Total Amount: ${totalAmount?.toFixed(2)}
             </Typography>
           </Box>
         </CardContent>

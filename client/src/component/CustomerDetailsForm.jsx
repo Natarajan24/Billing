@@ -14,7 +14,7 @@ import {
   Box,
 } from "@mui/material";
 
-import ProductTable from "./CommonTable.jsx";
+import CommonTable from "./CommonTable.jsx";
 import { v4 as uuidv4 } from "uuid";
 
 const CustomerDetailsForm = () => {
@@ -28,14 +28,6 @@ const CustomerDetailsForm = () => {
   const [selectedProduct, setSelectedProduct] = useState("");
   const [productQuantity, setProductQuantity] = useState("");
   const [products, setProducts] = useState([]);
-
-  console.log("customerData", customerData);
-  console.log("productData", productData);
-
-  const handleCancelCheckOut = ()=>{
-    setProducts([]);
-    setSelectedData("");
-  }
 
   const handleSave = () => {
     const customerDetails = customerData.filter(
@@ -54,8 +46,6 @@ const CustomerDetailsForm = () => {
       contactNumber: customerDetails[0]?.contactNumber,
       productDetails: products,
     };
-
-    console.log("billingData", billingData);
 
     const id = uuidv4();
     dispatch(saveData({ ...billingData, id }));
@@ -81,6 +71,7 @@ const CustomerDetailsForm = () => {
       setProducts([
         ...products,
         {
+          tempId: uuidv4(),
           productName: productDetails[0].productName,
           unitPrice: productDetails[0].unitPrice,
           tax: productDetails[0].tax,
@@ -97,76 +88,86 @@ const CustomerDetailsForm = () => {
     setProductQuantity("");
   };
 
+  const handleCancelCheckOut = () => {
+    setProducts([]);
+    setSelectedData("");
+  };
+
+  const handleProductAction = (data) => {
+    const filteredProducts = products.filter(
+      (product) => product.tempId !== data?.tempId
+    );
+    setProducts(filteredProducts);
+  };
+
   const handleNavigate = (page) => {
     navigate(`/${page}`);
   };
 
   return (
     <div style={{ padding: "30px" }}>
-      {customerData?.length !== 0 ? (
-        <FormControl style={{ margin: "8px", minWidth: "180px" }}>
-          <InputLabel id="customer-label-1"> Select Customer</InputLabel>
-          <Select
-            labelId="dropdown-label"
-            value={selectedData}
-            onChange={(e) => setSelectedData(e.target.value)}
-            disabled={products.length}
+      <div style={{display:"flex",alignItems:"center",justifyContent:"center",flexWrap: "wrap"}}>
+        {customerData?.length !== 0 ? (
+          <FormControl style={{ margin: "8px", minWidth: "220px" }}>
+            <InputLabel id="customer-label-1"> Select Customer</InputLabel>
+            <Select
+              labelId="dropdown-label"
+              value={selectedData}
+              onChange={(e) => setSelectedData(e.target.value)}
+              disabled={products.length}
+            >
+              {customerData?.map((item, index) => (
+                <MenuItem key={index} value={item.customerId}>
+                  {item.firstName}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        ) : (
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            style={{ margin: "8px", minWidth: "200px" }}
+            onClick={() => handleNavigate("customer")}
           >
-            {customerData?.map((item, index) => (
-              <MenuItem key={index} value={item.customerId}>
-                {item.firstName}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      ) : (
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          style={{ margin: "8px", minWidth: "200px" }}
-          onClick={() => handleNavigate("customer")}
-        >
-          Add Customer Details
-        </Button>
-      )}
-
-      {productData?.length !== 0 ? (
-        <FormControl style={{ margin: "8px", minWidth: "200px" }}>
-          <InputLabel id="Product-label-2">Select Product</InputLabel>
-          <Select
-            labelId="dropdown-label"
-            value={selectedProduct}
-            onChange={(e) => setSelectedProduct(e.target.value)}
+            Add Customer Details
+          </Button>
+        )}
+        {productData?.length !== 0 ? (
+          <FormControl style={{ margin: "8px", minWidth: "220px" }}>
+            <InputLabel id="Product-label-2">Select Product</InputLabel>
+            <Select
+              labelId="dropdown-label"
+              value={selectedProduct}
+              onChange={(e) => setSelectedProduct(e.target.value)}
+            >
+              {productData?.map((item, index) => (
+                <MenuItem key={index} value={item.productId}>
+                  {item.productName}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        ) : (
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            style={{ margin: "8px", minWidth: "220px" }}
+            onClick={() => handleNavigate("products")}
           >
-            {productData?.map((item, index) => (
-              <MenuItem key={index} value={item.productId}>
-                {item.productName}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      ) : (
+            Add Product Details
+          </Button>
+        )}
+        <TextField
+          label="Product Quantity"
+          style={{ margin: "8px" ,minWidth: "200px" }}
+          type="number"
+          value={productQuantity}
+          onChange={(e) => setProductQuantity(e.target.value)}
+        />
         <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          style={{ margin: "8px", minWidth: "200px" }}
-          onClick={() => handleNavigate("products")}
-        >
-          Add Product Details
-        </Button>
-      )}
-
-      <TextField
-        label="Product Quantity"
-        style={{ margin: "8px" }}
-        type="number"
-        value={productQuantity}
-        onChange={(e) => setProductQuantity(e.target.value)}
-      />
-
-      <Button
         variant="contained"
         color="primary"
         style={{ margin: "8px" }}
@@ -174,10 +175,14 @@ const CustomerDetailsForm = () => {
       >
         Add Product
       </Button>
+      </div>
       <br />
       <br />
-      <ProductTable products={products} />
-     
+      <CommonTable
+        products={products}
+        handleProductAction={handleProductAction}
+      />
+
       <Box textAlign="right">
         <div>
           <br />
@@ -187,6 +192,7 @@ const CustomerDetailsForm = () => {
               type="submit"
               variant="contained"
               color="primary"
+              style={{ backgroundColor: "#ff6333", color: "white" }}
               onClick={handleCancelCheckOut}
             >
               Cancel CheckOut
