@@ -88,7 +88,7 @@ const BillingInfo = () => {
               Subtotal: ${subtotal?.toFixed(2)}
             </Typography>
             <Typography variant="body1">
-              Tax :{calculateTotalTax}
+              Tax :{calculateTotalTax?.toFixed(2)}
             </Typography>
             <Typography variant="h6">
               Total Amount: ${totalAmount?.toFixed(2)}
