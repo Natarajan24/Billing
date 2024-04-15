@@ -61,7 +61,7 @@ const ProductDetails = () => {
     }
 
     const existingProduct = products.find(
-      (product) => product.productName === newProduct.productName
+      (product) => product?.productName === newProduct?.productName
     );
     if (existingProduct) {
       alert("Product with the same name already exists.");
@@ -79,10 +79,10 @@ const ProductDetails = () => {
 
   const handleUpdateProduct = (index) => {
     if (
-      !editingProduct.productName ||
-      !editingProduct.unitPrice ||
-      !editingProduct.tax ||
-      !editingProduct.description
+      !editingProduct?.productName ||
+      !editingProduct?.unitPrice ||
+      !editingProduct?.tax ||
+      !editingProduct?.description
     ) {
       alert("Please fill out all required fields.");
       return;
@@ -102,7 +102,7 @@ const ProductDetails = () => {
   };
 
   const handleDeleteProduct = (index) => {
-    setProducts((prevProducts) => prevProducts.filter((_, i) => i !== index));
+    setProducts((prevProducts) => prevProducts?.filter((_, i) => i !== index));
     if (editIndex === index) {
       setEditIndex(null);
       setEditingProduct(null);
@@ -120,7 +120,7 @@ const ProductDetails = () => {
   return (
     <div style={{ backgroundColor: "#f0f0f0", padding: "20px" }}>
       <Box textAlign="right">
-        {productData.length  || products.length ? (
+        {productData?.length  || products?.length ? (
           <></>
         ) : (
           <div>

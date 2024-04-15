@@ -75,7 +75,7 @@ const BillingInfo = () => {
                     <TableCell>{product.quantity}</TableCell>
                     <TableCell>${product.unitPrice}</TableCell>
                     <TableCell>{product.tax}%</TableCell>
-                    <TableCell>{(product.quantity * product.unitPrice * product.tax * taxRate).toFixed(2)}</TableCell>
+                    <TableCell>{(product.quantity * product.unitPrice * product.tax * taxRate)?.toFixed(2)}</TableCell>
                     <TableCell>${product.quantity * product.unitPrice}</TableCell>
                     <TableCell>${product.quantity * product.unitPrice + product.quantity * product.unitPrice * product.tax * taxRate}</TableCell>
                   </TableRow>
