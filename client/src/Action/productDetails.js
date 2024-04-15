@@ -6,7 +6,7 @@ const productData = createSlice({
   initialState: [],
   reducers: {
     saveProductDetails(state, action) {
-      return action.payload; // Replace the state with the new payload
+      return action.payload; 
     },
   },
 });
